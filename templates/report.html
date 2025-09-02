@@ -1,0 +1,259 @@
+<!DOCTYPE html>
+<html lang="en" data-wf-page="coastsense-report" data-wf-site="coastsense">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Report Hazard - CoastSense</title>
+    <link href="../static/css/alora-style.css" rel="stylesheet" type="text/css">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@100;200;300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css">
+</head>
+<body class="body">
+    <!-- Logo -->
+    <a href="home.html" class="logo_wrap w-inline-block">
+        <img src="../static/images/622f5653e6c1d815b950d175_isologo.svg" loading="lazy" width="75" alt="CoastSense Logo" class="isologo">
+    </a>
+
+    <!-- Navigation -->
+    <div data-collapse="all" data-animation="over-right" data-duration="650" data-easing2="ease-in-circ" data-easing="ease" role="banner" class="vertical-nav w-nav">
+        <div class="menu-button w-nav-button">
+            <div class="wrapper-burger-menu">
+                <div class="menu-line"></div>
+                <div class="menu-line second"></div>
+            </div>
+        </div>
+        
+        <nav role="navigation" class="nav-menu w-nav-menu">
+            <div class="wrapper-big-menu">
+                <div class="container-menu-text">
+                    <div class="menu-link">
+                        <div class="nav-text">01</div>
+                        <div class="link-line"></div>
+                        <a href="home.html" class="nav-link w-nav-link">Home</a>
+                    </div>
+                    <div class="menu-link">
+                        <div class="nav-text">02</div>
+                        <div class="link-line"></div>
+                        <a href="dashboard.html" class="nav-link w-nav-link">Dashboard</a>
+                    </div>
+                    <div class="menu-link">
+                        <div class="nav-text">03</div>
+                        <div class="link-line"></div>
+                        <a href="report.html" aria-current="page" class="nav-link w-nav-link w--current">Report Hazard</a>
+                    </div>
+                </div>
+            </div>
+        </nav>
+    </div>
+
+    <!-- Report Form Container -->
+    <div class="report-container">
+        <div class="form-card">
+            <h1 class="heading is--title" style="text-align: center; margin-bottom: 2rem;">Report Ocean Hazard</h1>
+            <p class="paragraph" style="margin-bottom: 2rem;">
+                Help protect coastal communities by reporting ocean hazards in your area. Your reports contribute to early warning systems.
+            </p>
+
+            <form id="report-form" action="#" method="POST" enctype="multipart/form-data">
+                <!-- Hazard Type -->
+                <div class="form-group">
+                    <label for="hazard-type">Hazard Type *</label>
+                    <select id="hazard-type" name="hazard-type" required>
+                        <option value="">Select hazard type</option>
+                        <option value="tsunami">Tsunami</option>
+                        <option value="storm-surge">Storm Surge</option>
+                        <option value="high-waves">High Waves</option>
+                        <option value="coastal-flooding">Coastal Flooding</option>
+                        <option value="abnormal-tides">Abnormal Tides</option>
+                        <option value="swell-surge">Swell Surge</option>
+                        <option value="coastal-erosion">Coastal Erosion</option>
+                        <option value="other">Other</option>
+                    </select>
+                </div>
+
+                <!-- Severity Level -->
+                <div class="form-group">
+                    <label for="severity">Severity Level *</label>
+                    <select id="severity" name="severity" required>
+                        <option value="">Select severity</option>
+                        <option value="low">Low - Minor impact, no immediate danger</option>
+                        <option value="medium">Medium - Moderate impact, caution advised</option>
+                        <option value="high">High - Significant impact, immediate action required</option>
+                    </select>
+                </div>
+
+                <!-- Description -->
+                <div class="form-group">
+                    <label for="description">Description *</label>
+                    <textarea id="description" name="description" rows="4" placeholder="Describe what you observed. Include details about timing, intensity, and any damage or impacts..." required></textarea>
+                </div>
+
+                <!-- Location Information -->
+                <div style="display: grid; grid-template-columns: 1fr auto; gap: 1rem; align-items: end;">
+                    <div class="form-group">
+                        <label for="location">Location *</label>
+                        <input type="text" id="location" name="location" placeholder="Enter location name or address" required>
+                    </div>
+                    <button type="button" id="get-location" class="btn btn-secondary" style="height: fit-content; white-space: nowrap;">
+                        Get Current Location
+                    </button>
+                </div>
+
+                <!-- Coordinates -->
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem;">
+                    <div class="form-group">
+                        <label for="latitude">Latitude</label>
+                        <input type="number" id="latitude" name="latitude" step="any" placeholder="e.g., 19.0760">
+                    </div>
+                    <div class="form-group">
+                        <label for="longitude">Longitude</label>
+                        <input type="number" id="longitude" name="longitude" step="any" placeholder="e.g., 72.8777">
+                    </div>
+                </div>
+
+                <!-- Date and Time -->
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem;">
+                    <div class="form-group">
+                        <label for="event-date">Event Date *</label>
+                        <input type="date" id="event-date" name="event-date" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="event-time">Event Time *</label>
+                        <input type="time" id="event-time" name="event-time" required>
+                    </div>
+                </div>
+
+                <!-- Media Upload -->
+                <div class="form-group">
+                    <label for="media-upload">Photos/Videos (Optional)</label>
+                    <div class="file-upload" onclick="document.getElementById('media-upload').click()">
+                        <input type="file" id="media-upload" name="media" multiple accept="image/*,video/*" style="display: none;">
+                        <div style="text-align: center;">
+                            <div style="font-size: 2rem; margin-bottom: 0.5rem;">📷</div>
+                            <p>Click to upload photos or videos</p>
+                            <p style="font-size: 0.9rem; color: #7f8c8d; margin-top: 0.5rem;">
+                                Supported formats: JPG, PNG, MP4, MOV (Max 10MB each)
+                            </p>
+                        </div>
+                    </div>
+                    <div id="file-preview" style="margin-top: 1rem;"></div>
+                </div>
+
+                <!-- Contact Information -->
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem;">
+                    <div class="form-group">
+                        <label for="reporter-name">Your Name (Optional)</label>
+                        <input type="text" id="reporter-name" name="reporter-name" placeholder="Enter your name">
+                    </div>
+                    <div class="form-group">
+                        <label for="reporter-contact">Contact Number (Optional)</label>
+                        <input type="tel" id="reporter-contact" name="reporter-contact" placeholder="Enter contact number">
+                    </div>
+                </div>
+
+                <!-- Additional Information -->
+                <div class="form-group">
+                    <label for="additional-info">Additional Information</label>
+                    <textarea id="additional-info" name="additional-info" rows="3" placeholder="Any additional details, witness accounts, or relevant information..."></textarea>
+                </div>
+
+                <!-- Emergency Contact -->
+                <div style="background: #fef9e7; padding: 1rem; border-radius: 8px; margin: 1rem 0; border-left: 4px solid #f39c12;">
+                    <h4 style="color: #f39c12; margin-bottom: 0.5rem;">⚠️ Emergency Situation?</h4>
+                    <p style="color: #666; font-size: 0.9rem;">
+                        If this is an immediate emergency, please contact local authorities first:
+                        <br><strong>Emergency: 112 | Coast Guard: 1554 | Disaster Management: 108</strong>
+                    </p>
+                </div>
+
+                <!-- Submit Button -->
+                <div style="text-align: center; margin-top: 2rem;">
+                    <button type="submit" class="btn btn-primary" style="padding: 1rem 3rem; font-size: 1.1rem;">
+                        Submit Report
+                    </button>
+                </div>
+            </form>
+        </div>
+
+        <!-- Guidelines Section -->
+        <div class="cards_wrapp" style="margin-top: 2rem;">
+            <div class="card" style="width: 100%; flex-direction: column; align-items: flex-start; padding: 2rem;">
+                <h3 class="heading is--title" style="margin-bottom: 1rem; font-size: 1.5rem;">Reporting Guidelines</h3>
+                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 1.5rem; width: 100%;">
+                    <div>
+                        <h4 style="color: var(--deep-sky-blue); margin-bottom: 0.5rem;">📍 Location Accuracy</h4>
+                        <p style="color: #666; font-size: 0.9rem;">Provide precise location information. Use GPS coordinates when possible for better accuracy.</p>
+                    </div>
+                    <div>
+                        <h4 style="color: var(--deep-sky-blue); margin-bottom: 0.5rem;">📸 Visual Evidence</h4>
+                        <p style="color: #666; font-size: 0.9rem;">Include photos or videos if safe to do so. Visual evidence helps validate and assess the situation.</p>
+                    </div>
+                    <div>
+                        <h4 style="color: var(--deep-sky-blue); margin-bottom: 0.5rem;">⏰ Timing</h4>
+                        <p style="color: #666; font-size: 0.9rem;">Report as soon as possible. Include the exact time when the event occurred or was observed.</p>
+                    </div>
+                    <div>
+                        <h4 style="color: var(--deep-sky-blue); margin-bottom: 0.5rem;">🔍 Details</h4>
+                        <p style="color: #666; font-size: 0.9rem;">Provide clear, factual descriptions. Include impacts on infrastructure, people, or marine life.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <div class="footer">
+        <div class="footer-container">
+            <div class="footer-col">
+                <img src="../static/images/620e6b7003233b4e7bd43b19_footer-logo.svg" loading="lazy" alt="">
+                <a href="https://incois.gov.in" target="_blank" class="footer-social-link">Indian National Centre for Ocean Information Services (INCOIS)</a>
+                <a href="tel:+91-40-23886047" class="footer-social-link">+91-40-23886047</a>
+                <a href="mailto:coastsense@incois.gov.in" class="footer-social-link">coastsense@incois.gov.in</a>
+            </div>
+            <div class="footer-col">
+                <h1 class="footer-title">Pages</h1>
+                <a href="home.html" class="footer-site-link">Home</a>
+                <a href="dashboard.html" class="footer-site-link">Dashboard</a>
+                <a href="report.html" aria-current="page" class="footer-site-link w--current">Report Hazard</a>
+            </div>
+            <div class="footer-col">
+                <h1 class="footer-title">Follow us</h1>
+                <a href="#" target="_blank" class="footer-social-link">Twitter</a>
+                <a href="#" target="_blank" class="footer-social-link">Facebook</a>
+                <a href="#" target="_blank" class="footer-social-link">LinkedIn</a>
+            </div>
+            <div class="footer-col news">
+                <h1 class="footer-title">Newsletter</h1>
+                <div class="form-block w-form">
+                    <form class="form">
+                        <label for="email" class="footer-form-link">Stay Updated</label>
+                        <div class="div-block">
+                            <input class="text-field w-input" maxlength="256" name="email" placeholder="Enter email" type="email" id="email" required="">
+                            <input type="submit" class="submit-button w-button" value="Subscribe">
+                        </div>
+                    </form>
+                </div>
+            </div>
+            <div class="copy-text">© 2024 CoastSense - Ministry of Earth Sciences, Government of India</div>
+        </div>
+    </div>
+
+    <!-- Scripts -->
+    <script src="../static/js/anime.min.js"></script>
+    <script src="../static/js/jquery-3.5.1.min.dc5e7f18c8.js"></script>
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+    <script src="../static/js/main.js"></script>
+
+    <script>
+        // Set current date and time as default
+        document.addEventListener('DOMContentLoaded', () => {
+            const now = new Date();
+            const date = now.toISOString().split('T')[0];
+            const time = now.toTimeString().split(' ')[0].substring(0, 5);
+            
+            document.getElementById('event-date').value = date;
+            document.getElementById('event-time').value = time;
+        });
+    </script>
+</body>
+</html>
