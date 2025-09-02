@@ -1307,12 +1307,28 @@ body {
 
 /* Process Section */
 .section.is--process {
-  background: linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.5)), url('../images/ocean1.png');
+  background: linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.5)), url('../images/ocean1.jpg');
   background-position: center center;
   background-repeat: no-repeat;
   background-size: cover;
   padding: 80px 5%;
   min-height: 80vh;
+}
+
+.section.is--process .heading {
+  color: white;
+}
+
+.section.is--process .paragraph {
+  color: white;
+}
+
+.section.is--process .process-item h3 {
+  color: white;
+}
+
+.section.is--process .process-item p {
+  color: white;
 }
 
 .container.is--process_path {
