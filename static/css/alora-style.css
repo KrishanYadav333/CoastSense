@@ -1313,6 +1313,8 @@ body {
   background-size: cover;
   padding: 80px 5%;
   min-height: 80vh;
+  position: relative;
+  z-index: 1;
 }
 
 .section.is--process .heading {
@@ -1329,6 +1331,36 @@ body {
 
 .section.is--process .process-item p {
   color: white;
+}
+
+.section.is--process .process-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 2rem;
+  max-width: 1200px;
+  margin: 3rem auto 0;
+}
+
+.section.is--process .process-item {
+  text-align: center;
+  padding: 1.5rem;
+  background: rgba(255,255,255,0.1);
+  border-radius: 10px;
+  backdrop-filter: blur(10px);
+}
+
+.section.is--process .process-number {
+  width: 50px;
+  height: 50px;
+  background: linear-gradient(45deg, #1dcdfe, #34f5c5);
+  color: white;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.2rem;
+  font-weight: bold;
+  margin: 0 auto 1rem;
 }
 
 .container.is--process_path {
