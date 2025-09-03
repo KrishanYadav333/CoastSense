@@ -1,3 +1,7 @@
+// Copyright (c) 2025 CoastSense Project
+// Licensed under MIT License
+// See LICENSE file for details
+
 // CoastSense Ocean Hazard Platform JavaScript - WORKING VERSION
 class OceanHazardPlatform {
     constructor() {

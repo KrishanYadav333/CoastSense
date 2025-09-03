@@ -1,3 +1,7 @@
+# Copyright (c) 2025 CoastSense Project
+# Licensed under MIT License
+# See LICENSE file for details
+
 import folium
 import pandas as pd
 import requests
