@@ -336,10 +336,8 @@ body {
 }
 
 .section.is--video {
-  background-image: linear-gradient(to bottom, var(--deep-sky-blue), #34f5c5), url('../images/620a5433296f0736489ec04a_waves-divider.svg');
-  background-position: center, bottom;
-  background-repeat: no-repeat, no-repeat;
-  background-size: cover, 100% 200px;
+  background: url('../images/back1.svg') no-repeat center center;
+  background-size: cover;
   justify-content: flex-end;
   align-items: center;
   height: 100vh;
@@ -1457,5 +1455,5 @@ body {
   width: 110%;
   height: 110%;
   object-fit: cover;
-  transform: scale(1.1) translateY(-10%);
+  transform: scale(1.23) translate(-5%, -4%);
 }
