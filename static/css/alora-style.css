@@ -1421,12 +1421,18 @@ body {
 }
 
 .circular-video {
-  width: 450px;
-  height: 450px;
-  border-radius: 50%;
+  width: 550px;
+  height: 350px;
+  border-radius: 60% 40% 70% 30%;
   overflow: hidden;
   position: relative;
   box-shadow: 0 0 50px rgba(255,255,255,0.8), 0 0 100px rgba(135,206,235,0.6), 0 0 150px rgba(0,191,255,0.4);
+  animation: cloudFloat 6s ease-in-out infinite;
+}
+
+@keyframes cloudFloat {
+  0%, 100% { border-radius: 60% 40% 70% 30%; }
+  50% { border-radius: 30% 70% 40% 60%; }
 }
 
 .circular-video::before {
@@ -1448,7 +1454,8 @@ body {
 }
 
 .circular-video video {
-  width: 100%;
-  height: 100%;
+  width: 110%;
+  height: 110%;
   object-fit: cover;
+  transform: scale(1.1) translateY(-10%);
 }
