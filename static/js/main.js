@@ -28,8 +28,8 @@ class OceanHazardPlatform {
                 this.map.invalidateSize();
             }, 200);
 
-            // Add heatmap layer
-            this.heatmapLayer = L.layerGroup().addTo(this.map);
+            // Initialize empty heatmap layer
+            this.heatmapLayer = null;
         }
     }
 
@@ -256,8 +256,8 @@ class OceanHazardPlatform {
                 this.map.removeLayer(this.heatmapLayer);
             }
             this.heatmapLayer = L.heatLayer(data, {
-                radius: 25,
-                blur: 15,
+                radius: 30,
+                blur: 20,
                 maxZoom: 17,
                 gradient: {
                     0.2: '#34f5c5', 
@@ -266,6 +266,7 @@ class OceanHazardPlatform {
                     1.0: '#e74c3c'
                 }
             }).addTo(this.map);
+            console.log('Heatmap created with', data.length, 'points');
         } else {
             console.log('Heatmap plugin not loaded');
         }

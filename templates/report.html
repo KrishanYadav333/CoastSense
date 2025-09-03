@@ -7,50 +7,42 @@
     <link href="../static/css/alora-style.css" rel="stylesheet" type="text/css">
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@100;200;300;400;500;600;700;800;900&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css">
+    <style>
+        label { color: #e0e0e0 !important; }
+    </style>
 </head>
-<body class="body">
-    <!-- Logo -->
-    <a href="home.html" class="logo_wrap w-inline-block">
-        <img src="../static/images/622f5653e6c1d815b950d175_isologo.svg" loading="lazy" width="75" alt="CoastSense Logo" class="isologo">
-    </a>
-
+<body class="body" style="position: relative; min-height: 100vh; overflow-x: hidden;">
+    <video autoplay="" loop="" muted="" playsinline="" style="position: fixed; top: 0; left: 0; width: 100%; height: 100%; object-fit: cover; z-index: -2;">
+        <source src="../static/media/waves.mp4">
+    </video>
+    <div style="position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: linear-gradient(135deg, rgba(44,62,80,0.8), rgba(52,73,94,0.8)); z-index: -1;"></div>
     <!-- Navigation -->
-    <div data-collapse="all" data-animation="over-right" data-duration="650" data-easing2="ease-in-circ" data-easing="ease" role="banner" class="vertical-nav w-nav">
-        <div class="menu-button w-nav-button">
-            <div class="wrapper-burger-menu">
-                <div class="menu-line"></div>
-                <div class="menu-line second"></div>
+    <nav class="horizontal-nav">
+        <div class="nav-container">
+            <div class="nav-logo">
+                <img src="../static/images/coastsense-logo.svg" alt="CoastSense" width="120">
+            </div>
+            <div class="nav-links">
+                <a href="home.html" class="nav-link">Home</a>
+                <a href="dashboard.html" class="nav-link">Dashboard</a>
+                <a href="report.html" class="nav-link active">Report Hazard</a>
+                <a href="#" class="nav-link login-btn">Login</a>
+                <a href="menu.html" class="menu-toggle">
+                    <div class="hamburger">
+                        <span></span>
+                        <span></span>
+                        <span></span>
+                    </div>
+                </a>
             </div>
         </div>
-        
-        <nav role="navigation" class="nav-menu w-nav-menu">
-            <div class="wrapper-big-menu">
-                <div class="container-menu-text">
-                    <div class="menu-link">
-                        <div class="nav-text">01</div>
-                        <div class="link-line"></div>
-                        <a href="home.html" class="nav-link w-nav-link">Home</a>
-                    </div>
-                    <div class="menu-link">
-                        <div class="nav-text">02</div>
-                        <div class="link-line"></div>
-                        <a href="dashboard.html" class="nav-link w-nav-link">Dashboard</a>
-                    </div>
-                    <div class="menu-link">
-                        <div class="nav-text">03</div>
-                        <div class="link-line"></div>
-                        <a href="report.html" aria-current="page" class="nav-link w-nav-link w--current">Report Hazard</a>
-                    </div>
-                </div>
-            </div>
-        </nav>
-    </div>
+    </nav>
 
     <!-- Report Form Container -->
-    <div class="report-container">
-        <div class="form-card">
-            <h1 class="heading is--title" style="text-align: center; margin-bottom: 2rem;">Report Ocean Hazard</h1>
-            <p class="paragraph" style="margin-bottom: 2rem;">
+    <div class="report-container" style="padding-top: 100px;">
+        <div class="form-card" style="background: rgba(0,0,0,0.3); backdrop-filter: blur(10px); border: 1px solid rgba(255,255,255,0.1); color: white;">
+            <h1 class="heading is--title" style="text-align: center; margin-bottom: 2rem; color: #f8f9fa;">Report Ocean Hazard</h1>
+            <p class="paragraph" style="margin-bottom: 2rem; color: #e0e0e0;">
                 Help protect coastal communities by reporting ocean hazards in your area. Your reports contribute to early warning systems.
             </p>
 
@@ -176,25 +168,37 @@
         </div>
 
         <!-- Guidelines Section -->
-        <div class="cards_wrapp" style="margin-top: 2rem;">
-            <div class="card" style="width: 100%; flex-direction: column; align-items: flex-start; padding: 2rem;">
-                <h3 class="heading is--title" style="margin-bottom: 1rem; font-size: 1.5rem;">Reporting Guidelines</h3>
-                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 1.5rem; width: 100%;">
-                    <div>
-                        <h4 style="color: var(--deep-sky-blue); margin-bottom: 0.5rem;">📍 Location Accuracy</h4>
-                        <p style="color: #666; font-size: 0.9rem;">Provide precise location information. Use GPS coordinates when possible for better accuracy.</p>
+        <div style="margin-top: 3rem;">
+            <div style="background: rgba(0,0,0,0.2); backdrop-filter: blur(15px); border: 1px solid rgba(255,255,255,0.1); border-radius: 20px; padding: 3rem; box-shadow: 0 8px 32px rgba(0,0,0,0.3);">
+                <h3 style="text-align: center; margin-bottom: 2rem; font-size: 2rem; color: #f8f9fa; font-weight: 700;">Reporting Guidelines</h3>
+                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 2rem;">
+                    <div style="background: rgba(255,255,255,0.05); padding: 1.5rem; border-radius: 15px; border: 1px solid rgba(255,255,255,0.1); transition: all 0.3s ease;" onmouseover="this.style.background='rgba(255,255,255,0.1)'; this.style.transform='translateY(-5px)'" onmouseout="this.style.background='rgba(255,255,255,0.05)'; this.style.transform='translateY(0)'">
+                        <div style="display: flex; align-items: center; margin-bottom: 1rem;">
+                            <div style="width: 50px; height: 50px; background: linear-gradient(135deg, #1dcdfe, #34f5c5); border-radius: 50%; display: flex; align-items: center; justify-content: center; margin-right: 1rem; font-size: 1.5rem;">📍</div>
+                            <h4 style="color: #f8f9fa; margin: 0; font-size: 1.2rem; font-weight: 600;">Location Accuracy</h4>
+                        </div>
+                        <p style="color: #e0e0e0; font-size: 1rem; line-height: 1.6; margin: 0;">Provide precise location information. Use GPS coordinates when possible for better accuracy.</p>
                     </div>
-                    <div>
-                        <h4 style="color: var(--deep-sky-blue); margin-bottom: 0.5rem;">📸 Visual Evidence</h4>
-                        <p style="color: #666; font-size: 0.9rem;">Include photos or videos if safe to do so. Visual evidence helps validate and assess the situation.</p>
+                    <div style="background: rgba(255,255,255,0.05); padding: 1.5rem; border-radius: 15px; border: 1px solid rgba(255,255,255,0.1); transition: all 0.3s ease;" onmouseover="this.style.background='rgba(255,255,255,0.1)'; this.style.transform='translateY(-5px)'" onmouseout="this.style.background='rgba(255,255,255,0.05)'; this.style.transform='translateY(0)'">
+                        <div style="display: flex; align-items: center; margin-bottom: 1rem;">
+                            <div style="width: 50px; height: 50px; background: linear-gradient(135deg, #1dcdfe, #34f5c5); border-radius: 50%; display: flex; align-items: center; justify-content: center; margin-right: 1rem; font-size: 1.5rem;">📸</div>
+                            <h4 style="color: #f8f9fa; margin: 0; font-size: 1.2rem; font-weight: 600;">Visual Evidence</h4>
+                        </div>
+                        <p style="color: #e0e0e0; font-size: 1rem; line-height: 1.6; margin: 0;">Include photos or videos if safe to do so. Visual evidence helps validate and assess the situation.</p>
                     </div>
-                    <div>
-                        <h4 style="color: var(--deep-sky-blue); margin-bottom: 0.5rem;">⏰ Timing</h4>
-                        <p style="color: #666; font-size: 0.9rem;">Report as soon as possible. Include the exact time when the event occurred or was observed.</p>
+                    <div style="background: rgba(255,255,255,0.05); padding: 1.5rem; border-radius: 15px; border: 1px solid rgba(255,255,255,0.1); transition: all 0.3s ease;" onmouseover="this.style.background='rgba(255,255,255,0.1)'; this.style.transform='translateY(-5px)'" onmouseout="this.style.background='rgba(255,255,255,0.05)'; this.style.transform='translateY(0)'">
+                        <div style="display: flex; align-items: center; margin-bottom: 1rem;">
+                            <div style="width: 50px; height: 50px; background: linear-gradient(135deg, #1dcdfe, #34f5c5); border-radius: 50%; display: flex; align-items: center; justify-content: center; margin-right: 1rem; font-size: 1.5rem;">⏰</div>
+                            <h4 style="color: #f8f9fa; margin: 0; font-size: 1.2rem; font-weight: 600;">Timing</h4>
+                        </div>
+                        <p style="color: #e0e0e0; font-size: 1rem; line-height: 1.6; margin: 0;">Report as soon as possible. Include the exact time when the event occurred or was observed.</p>
                     </div>
-                    <div>
-                        <h4 style="color: var(--deep-sky-blue); margin-bottom: 0.5rem;">🔍 Details</h4>
-                        <p style="color: #666; font-size: 0.9rem;">Provide clear, factual descriptions. Include impacts on infrastructure, people, or marine life.</p>
+                    <div style="background: rgba(255,255,255,0.05); padding: 1.5rem; border-radius: 15px; border: 1px solid rgba(255,255,255,0.1); transition: all 0.3s ease;" onmouseover="this.style.background='rgba(255,255,255,0.1)'; this.style.transform='translateY(-5px)'" onmouseout="this.style.background='rgba(255,255,255,0.05)'; this.style.transform='translateY(0)'">
+                        <div style="display: flex; align-items: center; margin-bottom: 1rem;">
+                            <div style="width: 50px; height: 50px; background: linear-gradient(135deg, #1dcdfe, #34f5c5); border-radius: 50%; display: flex; align-items: center; justify-content: center; margin-right: 1rem; font-size: 1.5rem;">🔍</div>
+                            <h4 style="color: #f8f9fa; margin: 0; font-size: 1.2rem; font-weight: 600;">Details</h4>
+                        </div>
+                        <p style="color: #e0e0e0; font-size: 1rem; line-height: 1.6; margin: 0;">Provide clear, factual descriptions. Include impacts on infrastructure, people, or marine life.</p>
                     </div>
                 </div>
             </div>
@@ -241,6 +245,8 @@
     <!-- Scripts -->
     <script src="../static/js/anime.min.js"></script>
     <script src="../static/js/jquery-3.5.1.min.dc5e7f18c8.js"></script>
+    <script src="../static/js/page-transition.js"></script>
+    <script src="../static/js/text-scroll-animation.js"></script>
     <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
     <script src="../static/js/main.js"></script>
 
