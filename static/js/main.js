@@ -246,7 +246,7 @@ class OceanHazardPlatform {
 
     // Update heatmap layer
     updateHeatmap(data) {
-        if (window.L && window.L.heatLayer) {
+        if (typeof L !== 'undefined' && L.heatLayer) {
             if (this.heatmapLayer) {
                 this.map.removeLayer(this.heatmapLayer);
             }
@@ -261,6 +261,8 @@ class OceanHazardPlatform {
                     1.0: '#e74c3c'
                 }
             }).addTo(this.map);
+        } else {
+            console.log('Heatmap plugin not loaded');
         }
     }
 

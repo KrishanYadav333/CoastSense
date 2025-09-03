@@ -11,64 +11,49 @@
     <script src="https://unpkg.com/leaflet.heat@0.2.0/dist/leaflet-heat.js"></script>
 </head>
 <body class="body">
-    <!-- Logo -->
-    <a href="home.html" class="logo_wrap w-inline-block">
-        <img src="../static/images/622f5653e6c1d815b950d175_isologo.svg" loading="lazy" width="75" alt="CoastSense Logo" class="isologo">
-    </a>
-
     <!-- Navigation -->
-    <div data-collapse="all" data-animation="over-right" data-duration="650" data-easing2="ease-in-circ" data-easing="ease" role="banner" class="vertical-nav w-nav">
-        <div class="menu-button w-nav-button">
-            <div class="wrapper-burger-menu">
-                <div class="menu-line"></div>
-                <div class="menu-line second"></div>
+    <nav class="horizontal-nav">
+        <div class="nav-container">
+            <div class="nav-logo">
+                <img src="../static/images/coastsense-logo.svg" alt="CoastSense" width="120">
+            </div>
+            <div class="nav-links">
+                <a href="home.html" class="nav-link">Home</a>
+                <a href="dashboard.html" class="nav-link active">Dashboard</a>
+                <a href="report.html" class="nav-link">Report Hazard</a>
+                <a href="#" class="nav-link login-btn">Login</a>
+                <a href="menu.html" class="menu-toggle">
+                    <div class="hamburger">
+                        <span></span>
+                        <span></span>
+                        <span></span>
+                    </div>
+                </a>
             </div>
         </div>
-        
-        <nav role="navigation" class="nav-menu w-nav-menu">
-            <div class="wrapper-big-menu">
-                <div class="container-menu-text">
-                    <div class="menu-link">
-                        <div class="nav-text">01</div>
-                        <div class="link-line"></div>
-                        <a href="home.html" class="nav-link w-nav-link">Home</a>
-                    </div>
-                    <div class="menu-link">
-                        <div class="nav-text">02</div>
-                        <div class="link-line"></div>
-                        <a href="dashboard.html" aria-current="page" class="nav-link w-nav-link w--current">Dashboard</a>
-                    </div>
-                    <div class="menu-link">
-                        <div class="nav-text">03</div>
-                        <div class="link-line"></div>
-                        <a href="report.html" class="nav-link w-nav-link">Report Hazard</a>
-                    </div>
-                </div>
-            </div>
-        </nav>
-    </div>
+    </nav>
 
     <!-- Dashboard Layout -->
-    <div class="dashboard">
+    <div class="dashboard" style="background: linear-gradient(135deg, #1e3c72, #2a5298); min-height: 100vh; padding-top: 80px;">
         <!-- Sidebar -->
-        <div class="sidebar">
+        <div class="sidebar" style="background: rgba(255,255,255,0.1); backdrop-filter: blur(10px); border: 1px solid rgba(255,255,255,0.2);">
             <!-- Statistics Cards -->
             <div class="stats-grid">
-                <div class="stat-card">
-                    <div class="stat-number" id="total-reports">0</div>
-                    <div class="stat-label">Total Reports</div>
+                <div class="stat-card" style="background: rgba(255,255,255,0.1); border: 1px solid rgba(255,255,255,0.2); backdrop-filter: blur(10px);">
+                    <div class="stat-number" id="total-reports" style="color: #1dcdfe;">0</div>
+                    <div class="stat-label" style="color: white;">Total Reports</div>
                 </div>
-                <div class="stat-card">
-                    <div class="stat-number" id="high-severity">0</div>
-                    <div class="stat-label">High Severity</div>
+                <div class="stat-card" style="background: rgba(255,255,255,0.1); border: 1px solid rgba(255,255,255,0.2); backdrop-filter: blur(10px);">
+                    <div class="stat-number" id="high-severity" style="color: #e74c3c;">0</div>
+                    <div class="stat-label" style="color: white;">High Severity</div>
                 </div>
-                <div class="stat-card">
-                    <div class="stat-number" id="medium-severity">0</div>
-                    <div class="stat-label">Medium Severity</div>
+                <div class="stat-card" style="background: rgba(255,255,255,0.1); border: 1px solid rgba(255,255,255,0.2); backdrop-filter: blur(10px);">
+                    <div class="stat-number" id="medium-severity" style="color: #f39c12;">0</div>
+                    <div class="stat-label" style="color: white;">Medium Severity</div>
                 </div>
-                <div class="stat-card">
-                    <div class="stat-number" id="low-severity">0</div>
-                    <div class="stat-label">Low Severity</div>
+                <div class="stat-card" style="background: rgba(255,255,255,0.1); border: 1px solid rgba(255,255,255,0.2); backdrop-filter: blur(10px);">
+                    <div class="stat-number" id="low-severity" style="color: #27ae60;">0</div>
+                    <div class="stat-label" style="color: white;">Low Severity</div>
                 </div>
             </div>
 
@@ -176,7 +161,7 @@
                 </div>
 
                 <!-- Map Container -->
-                <div id="map"></div>
+                <div id="map" style="width: 100%; height: 100%; min-height: 600px;"></div>
             </div>
         </div>
     </div>
@@ -184,6 +169,8 @@
     <!-- Scripts -->
     <script src="../static/js/anime.min.js"></script>
     <script src="../static/js/jquery-3.5.1.min.dc5e7f18c8.js"></script>
+    <script src="../static/js/page-transition.js"></script>
+    <script src="../static/js/text-scroll-animation.js"></script>
     <script src="../static/js/main.js"></script>
 
     <script>
@@ -192,7 +179,9 @@
 
         // Initialize platform when page loads
         document.addEventListener('DOMContentLoaded', () => {
-            platform = new OceanHazardPlatform();
+            setTimeout(() => {
+                platform = new OceanHazardPlatform();
+            }, 100);
         });
 
         // Toggle heatmap visibility

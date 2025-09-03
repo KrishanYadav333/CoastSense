@@ -287,6 +287,22 @@ body {
   line-height: 1.1em;
 }
 
+.hero-title-metallic {
+  font-size: 12rem;
+  font-weight: 900;
+  font-family: Montserrat, sans-serif;
+  background: linear-gradient(135deg, #4a90e2, #87ceeb, #5dade2, #aed6f1, #6bb6ff);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  text-align: center;
+  margin: 0;
+  padding: 2rem 0;
+  letter-spacing: 4px;
+  text-shadow: 0 4px 8px rgba(0,0,0,0.3);
+  line-height: 1.2;
+}
+
 .hero-subtitle {
   color: white;
   text-align: center;
@@ -1086,6 +1102,35 @@ body {
   }
 }
 
+/* Page Transition */
+.page-transition-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background: #000;
+  z-index: 9999;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 0.3s ease;
+}
+
+.page-transition-overlay.active {
+  opacity: 1;
+  visibility: visible;
+}
+
+.transition-video {
+  width: 150%;
+  height: 150%;
+  object-fit: cover;
+  transform: scale(1.8);
+}
+
 /* Animation Classes */
 .letter {
   display: inline-block;
@@ -1097,6 +1142,13 @@ body {
 
 .fade-up .letter {
   opacity: 0;
+}
+
+/* Text Animation */
+.text-animate .letter {
+  display: inline-block;
+  opacity: 0;
+  transform: translateY(100px);
 }
 
 /* Loading Animation */
