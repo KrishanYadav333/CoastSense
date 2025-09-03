@@ -8,7 +8,27 @@
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@100;200;300;400;500;600;700;800;900&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css">
     <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
-    <script src="https://unpkg.com/leaflet.heat@0.2.0/dist/leaflet-heat.js"></script>
+    <style>
+        .heatmap-canvas {
+            position: absolute;
+            top: 0;
+            left: 0;
+            pointer-events: none;
+            z-index: 1000;
+            opacity: 0.8;
+        }
+        .heatmap-point {
+            position: absolute;
+            border-radius: 50%;
+            transform: translate(-50%, -50%);
+            animation: pulse 2s infinite;
+        }
+        @keyframes pulse {
+            0% { transform: translate(-50%, -50%) scale(1); opacity: 0.8; }
+            50% { transform: translate(-50%, -50%) scale(1.2); opacity: 0.6; }
+            100% { transform: translate(-50%, -50%) scale(1); opacity: 0.8; }
+        }
+    </style>
 </head>
 
     <!-- Navigation -->
@@ -47,19 +67,19 @@
             <div class="stats-grid">
                 <div class="stat-card" style="background: rgba(255,255,255,0.1); border: 1px solid rgba(255,255,255,0.2); backdrop-filter: blur(10px);">
                     <div class="stat-number" id="total-reports" style="color: #1dcdfe;">0</div>
-                    <div class="stat-label" style="color: white;">Total Reports</div>
+                    <div class="stat-label" style="color: white;">Active Sensors</div>
                 </div>
                 <div class="stat-card" style="background: rgba(255,255,255,0.1); border: 1px solid rgba(255,255,255,0.2); backdrop-filter: blur(10px);">
                     <div class="stat-number" id="high-severity" style="color: #e74c3c;">0</div>
-                    <div class="stat-label" style="color: white;">High Severity</div>
+                    <div class="stat-label" style="color: white;">High Values</div>
                 </div>
                 <div class="stat-card" style="background: rgba(255,255,255,0.1); border: 1px solid rgba(255,255,255,0.2); backdrop-filter: blur(10px);">
                     <div class="stat-number" id="medium-severity" style="color: #f39c12;">0</div>
-                    <div class="stat-label" style="color: white;">Medium Severity</div>
+                    <div class="stat-label" style="color: white;">Medium Values</div>
                 </div>
                 <div class="stat-card" style="background: rgba(255,255,255,0.1); border: 1px solid rgba(255,255,255,0.2); backdrop-filter: blur(10px);">
                     <div class="stat-number" id="low-severity" style="color: #27ae60;">0</div>
-                    <div class="stat-label" style="color: white;">Low Severity</div>
+                    <div class="stat-label" style="color: white;">Low Values</div>
                 </div>
             </div>
 
@@ -82,80 +102,168 @@
             <div class="map-container">
                 <!-- Map Controls -->
                 <div style="position: absolute; top: 20px; right: 20px; z-index: 1000; background: rgba(255,255,255,0.9); backdrop-filter: blur(10px); padding: 1rem; border-radius: 8px; box-shadow: 0 2px 10px rgba(0,0,0,0.1); max-width: 250px;">
-                    <h4 style="margin-bottom: 0.5rem; color: #2c3e50;">Map Legend</h4>
-                    <div style="display: flex; align-items: center; margin-bottom: 0.25rem;">
-                        <div style="width: 12px; height: 12px; background: #e74c3c; border-radius: 50%; margin-right: 0.5rem;"></div>
-                        <span style="font-size: 0.9rem;">High Severity</span>
+                    <h4 style="margin-bottom: 0.5rem; color: #2c3e50;">Heatmap Legend</h4>
+                    <div id="legend-density" style="display: block;">
+                        <div style="font-size: 0.8rem; font-weight: 600; margin-bottom: 0.5rem; color: #2c3e50;">Report Density:</div>
+                        <div style="display: flex; align-items: center; margin-bottom: 0.25rem;">
+                            <div style="width: 12px; height: 12px; background: #e74c3c; border-radius: 50%; margin-right: 0.5rem;"></div>
+                            <span style="font-size: 0.8rem;">High Density</span>
+                        </div>
+                        <div style="display: flex; align-items: center; margin-bottom: 0.25rem;">
+                            <div style="width: 12px; height: 12px; background: #f39c12; border-radius: 50%; margin-right: 0.5rem;"></div>
+                            <span style="font-size: 0.8rem;">Medium Density</span>
+                        </div>
+                        <div style="display: flex; align-items: center; margin-bottom: 0.25rem;">
+                            <div style="width: 12px; height: 12px; background: #1dcdfe; border-radius: 50%; margin-right: 0.5rem;"></div>
+                            <span style="font-size: 0.8rem;">Low Density</span>
+                        </div>
                     </div>
-                    <div style="display: flex; align-items: center; margin-bottom: 0.25rem;">
-                        <div style="width: 12px; height: 12px; background: #f39c12; border-radius: 50%; margin-right: 0.5rem;"></div>
-                        <span style="font-size: 0.9rem;">Medium Severity</span>
+                    <div id="legend-severity" style="display: none;">
+                        <div style="font-size: 0.8rem; font-weight: 600; margin-bottom: 0.5rem; color: #2c3e50;">Severity Level:</div>
+                        <div style="display: flex; align-items: center; margin-bottom: 0.25rem;">
+                            <div style="width: 12px; height: 12px; background: #e74c3c; border-radius: 50%; margin-right: 0.5rem;"></div>
+                            <span style="font-size: 0.8rem;">Critical (8-10)</span>
+                        </div>
+                        <div style="display: flex; align-items: center; margin-bottom: 0.25rem;">
+                            <div style="width: 12px; height: 12px; background: #f39c12; border-radius: 50%; margin-right: 0.5rem;"></div>
+                            <span style="font-size: 0.8rem;">High (5-7)</span>
+                        </div>
+                        <div style="display: flex; align-items: center; margin-bottom: 0.25rem;">
+                            <div style="width: 12px; height: 12px; background: #27ae60; border-radius: 50%; margin-right: 0.5rem;"></div>
+                            <span style="font-size: 0.8rem;">Low (1-4)</span>
+                        </div>
                     </div>
-                    <div style="display: flex; align-items: center; margin-bottom: 1rem;">
-                        <div style="width: 12px; height: 12px; background: #27ae60; border-radius: 50%; margin-right: 0.5rem;"></div>
-                        <span style="font-size: 0.9rem;">Low Severity</span>
+                    <div id="legend-time" style="display: none;">
+                        <div style="font-size: 0.8rem; font-weight: 600; margin-bottom: 0.5rem; color: #2c3e50;">Time Intensity:</div>
+                        <div style="display: flex; align-items: center; margin-bottom: 0.25rem;">
+                            <div style="width: 12px; height: 12px; background: #e74c3c; border-radius: 50%; margin-right: 0.5rem;"></div>
+                            <span style="font-size: 0.8rem;">Recent (< 1h)</span>
+                        </div>
+                        <div style="display: flex; align-items: center; margin-bottom: 0.25rem;">
+                            <div style="width: 12px; height: 12px; background: #f39c12; border-radius: 50%; margin-right: 0.5rem;"></div>
+                            <span style="font-size: 0.8rem;">Recent (< 6h)</span>
+                        </div>
+                        <div style="display: flex; align-items: center; margin-bottom: 0.25rem;">
+                            <div style="width: 12px; height: 12px; background: #3498db; border-radius: 50%; margin-right: 0.5rem;"></div>
+                            <span style="font-size: 0.8rem;">Older (> 6h)</span>
+                        </div>
                     </div>
                     
-                    <h4 style="margin-bottom: 0.5rem; color: #2c3e50; border-top: 1px solid #ddd; padding-top: 0.5rem;">Recent Reports</h4>
+                    <h4 style="margin-bottom: 0.5rem; color: #2c3e50; border-top: 1px solid #ddd; padding-top: 0.5rem;">Live Ocean Data</h4>
                     <div style="padding: 0.5rem; border-left: 3px solid #e74c3c; margin-bottom: 0.5rem; background: rgba(231,76,60,0.1);">
-                        <div style="font-weight: 600; color: #e74c3c; font-size: 0.8rem;">High Waves</div>
-                        <div style="font-size: 0.7rem; color: #666;">Mumbai - 2h ago</div>
+                        <div style="font-weight: 600; color: #e74c3c; font-size: 0.8rem;">SST: 29.2°C</div>
+                        <div style="font-size: 0.7rem; color: #666;">Mumbai Coast - Live</div>
                     </div>
                     <div style="padding: 0.5rem; border-left: 3px solid #f39c12; margin-bottom: 0.5rem; background: rgba(243,156,18,0.1);">
-                        <div style="font-weight: 600; color: #f39c12; font-size: 0.8rem;">Storm Surge</div>
-                        <div style="font-size: 0.7rem; color: #666;">Chennai - 4h ago</div>
+                        <div style="font-weight: 600; color: #f39c12; font-size: 0.8rem;">Wave Height: 2.8m</div>
+                        <div style="font-size: 0.7rem; color: #666;">Chennai Coast - Live</div>
                     </div>
                     <div style="padding: 0.5rem; border-left: 3px solid #27ae60; background: rgba(39,174,96,0.1);">
-                        <div style="font-weight: 600; color: #27ae60; font-size: 0.8rem;">Abnormal Tides</div>
-                        <div style="font-size: 0.7rem; color: #666;">Goa - 6h ago</div>
+                        <div style="font-weight: 600; color: #27ae60; font-size: 0.8rem;">Current: 1.5 knots</div>
+                        <div style="font-size: 0.7rem; color: #666;">Goa Coast - Live</div>
                     </div>
                 </div>
 
                 <!-- Controls -->
-                <div style="position: absolute; top: 20px; left: 20px; z-index: 1000; display: flex; gap: 1rem; align-items: center;">
+                <div style="position: absolute; top: 20px; left: 20px; z-index: 1000; display: flex; flex-direction: column; gap: 0.5rem; align-items: flex-start;">
 
-                    
-                    <select id="hazard-type" style="padding: 0.5rem; border-radius: 5px; border: 1px solid #ddd;">
-                        <option value="">All Types</option>
-                        <option value="tsunami">Tsunami</option>
-                        <option value="storm-surge">Storm Surge</option>
-                        <option value="high-waves">High Waves</option>
-                        <option value="coastal-flooding">Coastal Flooding</option>
-                        <option value="abnormal-tides">Abnormal Tides</option>
-                    </select>
-                    
-                    <select id="severity-filter" style="padding: 0.5rem; border-radius: 5px; border: 1px solid #ddd;">
-                        <option value="">All Levels</option>
-                        <option value="high">High</option>
-                        <option value="medium">Medium</option>
-                        <option value="low">Low</option>
-                    </select>
-                    
-                    <select id="time-range" style="padding: 0.5rem; border-radius: 5px; border: 1px solid #ddd;">
-                        <option value="24h">Last 24 Hours</option>
-                        <option value="7d">Last 7 Days</option>
-                        <option value="30d">Last 30 Days</option>
-                        <option value="all">All Time</option>
-                    </select>
-                    
+                    <!-- Heatmap Type Selector -->
+                    <div style="background: rgba(255,255,255,0.9); backdrop-filter: blur(10px); padding: 0.5rem; border-radius: 8px; box-shadow: 0 2px 10px rgba(0,0,0,0.1);">
+                        <label style="font-weight: 600; color: #2c3e50; font-size: 0.8rem; margin-bottom: 0.25rem; display: block;">Heatmap Type:</label>
+                        <select id="heatmap-type" onchange="switchHeatmapType(this.value)" style="padding: 0.3rem; border-radius: 3px; border: 1px solid #ddd; font-size: 0.8rem;">
+                            <option value="density">Report Density</option>
+                            <option value="severity">Severity/Threat</option>
+                            <option value="time">Time-based</option>
+                        </select>
+                    </div>
+
+                    <!-- Time Range Selector -->
+                    <div style="background: rgba(255,255,255,0.9); backdrop-filter: blur(10px); padding: 0.5rem; border-radius: 8px; box-shadow: 0 2px 10px rgba(0,0,0,0.1);">
+                        <label style="font-weight: 600; color: #2c3e50; font-size: 0.8rem; margin-bottom: 0.25rem; display: block;">Time Range:</label>
+                        <select id="time-range" onchange="updateTimeFilter(this.value)" style="padding: 0.3rem; border-radius: 3px; border: 1px solid #ddd; font-size: 0.8rem;">
+                            <option value="1h">Last 1 Hour</option>
+                            <option value="6h">Last 6 Hours</option>
+                            <option value="24h" selected>Last 24 Hours</option>
+                            <option value="7d">Last 7 Days</option>
+                            <option value="30d">Last 30 Days</option>
+                        </select>
+                    </div>
+
+                    <!-- Hazard Type Filter -->
+                    <div style="background: rgba(255,255,255,0.9); backdrop-filter: blur(10px); padding: 0.5rem; border-radius: 8px; box-shadow: 0 2px 10px rgba(0,0,0,0.1);">
+                        <label style="font-weight: 600; color: #2c3e50; font-size: 0.8rem; margin-bottom: 0.25rem; display: block;">Hazard Type:</label>
+                        <select id="hazard-type" style="padding: 0.3rem; border-radius: 3px; border: 1px solid #ddd; font-size: 0.8rem;">
+                            <option value="">All Types</option>
+                            <option value="High Waves">High Waves</option>
+                            <option value="Storm Surge">Storm Surge</option>
+                            <option value="Tsunami Warning">Tsunami Warning</option>
+                            <option value="Coastal Flooding">Coastal Flooding</option>
+                            <option value="Abnormal Tides">Abnormal Tides</option>
+                            <option value="Coastal Erosion">Coastal Erosion</option>
+                        </select>
+                    </div>
+
+                    <!-- Severity Filter -->
+                    <div style="background: rgba(255,255,255,0.9); backdrop-filter: blur(10px); padding: 0.5rem; border-radius: 8px; box-shadow: 0 2px 10px rgba(0,0,0,0.1);">
+                        <label style="font-weight: 600; color: #2c3e50; font-size: 0.8rem; margin-bottom: 0.25rem; display: block;">Severity:</label>
+                        <select id="severity-filter" style="padding: 0.3rem; border-radius: 3px; border: 1px solid #ddd; font-size: 0.8rem;">
+                            <option value="">All Levels</option>
+                            <option value="high">High</option>
+                            <option value="medium">Medium</option>
+                            <option value="low">Low</option>
+                        </select>
+                    </div>
+
                     <button onclick="applyFilters()" style="
                         background: linear-gradient(135deg, #1dcdfe, #34f5c5);
                         color: white;
                         border: none;
-                        padding: 0.7rem 1.5rem;
-                        border-radius: 25px;
+                        padding: 0.5rem 1rem;
+                        border-radius: 20px;
                         font-weight: 600;
                         cursor: pointer;
                         box-shadow: 0 4px 15px rgba(29,205,254,0.3);
                         transition: all 0.3s ease;
-                        font-size: 0.9rem;
+                        font-size: 0.8rem;
                     " onmouseover="this.style.transform='translateY(-2px)'; this.style.boxShadow='0 6px 20px rgba(29,205,254,0.4)'" onmouseout="this.style.transform='translateY(0)'; this.style.boxShadow='0 4px 15px rgba(29,205,254,0.3)'">
                         Apply Filters
+                    </button>
+
+                    <button onclick="testHeatmap()" style="
+                        background: linear-gradient(135deg, #e74c3c, #c0392b);
+                        color: white;
+                        border: none;
+                        padding: 0.5rem 1rem;
+                        border-radius: 20px;
+                        font-weight: 600;
+                        cursor: pointer;
+                        box-shadow: 0 4px 15px rgba(231,76,60,0.3);
+                        transition: all 0.3s ease;
+                        font-size: 0.8rem;
+                        margin-top: 0.5rem;
+                    " onmouseover="this.style.transform='translateY(-2px)'; this.style.boxShadow='0 6px 20px rgba(231,76,60,0.4)'" onmouseout="this.style.transform='translateY(0)'; this.style.boxShadow='0 4px 15px rgba(231,76,60,0.3)'">
+                        Test Heatmap
                     </button>
                 </div>
 
                 <!-- Map Container -->
                 <div id="map" style="width: 100%; height: 100%; min-height: 600px;"></div>
+
+                <!-- Status Indicator -->
+                <div id="heatmap-status" style="
+                    position: absolute;
+                    bottom: 20px;
+                    left: 20px;
+                    background: rgba(0,0,0,0.8);
+                    color: white;
+                    padding: 0.5rem 1rem;
+                    border-radius: 20px;
+                    font-size: 0.8rem;
+                    z-index: 1000;
+                    display: none;
+                ">
+                    Loading heatmap...
+                </div>
             </div>
         </div>
     </div>
@@ -175,16 +283,37 @@
         document.addEventListener('DOMContentLoaded', () => {
             setTimeout(() => {
                 platform = new OceanHazardPlatform();
-            }, 100);
+                console.log('Platform initialized');
+            }, 500);
         });
         
         function applyFilters() {
             const hazardType = document.getElementById('hazard-type').value;
             const severity = document.getElementById('severity-filter').value;
             const timeRange = document.getElementById('time-range').value;
-            
+
             console.log('Applying filters:', { hazardType, severity, timeRange });
             // Filter logic would be implemented here
+        }
+
+        function switchHeatmapType(type) {
+            if (platform && platform.switchHeatmapType) {
+                platform.switchHeatmapType(type);
+            }
+        }
+
+        function updateTimeFilter(filter) {
+            if (platform && platform.updateTimeFilter) {
+                platform.updateTimeFilter(filter);
+            }
+        }
+
+        function testHeatmap() {
+            if (platform && platform.testHeatmap) {
+                platform.testHeatmap();
+            } else {
+                console.log('Platform not ready or testHeatmap method not available');
+            }
         }
 
 
