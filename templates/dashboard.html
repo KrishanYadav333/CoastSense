@@ -57,71 +57,9 @@
                 </div>
             </div>
 
-            <!-- Filters -->
-            <div class="filters">
-                <h3 style="margin-bottom: 1rem; color: #2c3e50;">Filters</h3>
-                
-                <div class="filter-group">
-                    <label for="hazard-type">Hazard Type</label>
-                    <select id="hazard-type" class="filter-select">
-                        <option value="">All Types</option>
-                        <option value="tsunami">Tsunami</option>
-                        <option value="storm-surge">Storm Surge</option>
-                        <option value="high-waves">High Waves</option>
-                        <option value="coastal-flooding">Coastal Flooding</option>
-                        <option value="abnormal-tides">Abnormal Tides</option>
-                        <option value="swell-surge">Swell Surge</option>
-                    </select>
-                </div>
 
-                <div class="filter-group">
-                    <label for="time-range">Time Range</label>
-                    <select id="time-range" class="filter-select">
-                        <option value="24h">Last 24 Hours</option>
-                        <option value="7d">Last 7 Days</option>
-                        <option value="30d">Last 30 Days</option>
-                        <option value="all">All Time</option>
-                    </select>
-                </div>
 
-                <div class="filter-group">
-                    <label for="severity-filter">Severity Level</label>
-                    <select id="severity-filter" class="filter-select">
-                        <option value="">All Levels</option>
-                        <option value="high">High</option>
-                        <option value="medium">Medium</option>
-                        <option value="low">Low</option>
-                    </select>
-                </div>
 
-                <div class="filter-group">
-                    <label for="location-filter">Location</label>
-                    <input type="text" id="location-filter" placeholder="Enter location or coordinates">
-                </div>
-
-                <button class="btn btn-primary" style="width: 100%; margin-top: 1rem;" onclick="platform.applyFilters()">
-                    Apply Filters
-                </button>
-            </div>
-
-            <!-- Recent Reports -->
-            <div style="background: white; padding: 1.5rem; border-radius: 10px; box-shadow: 0 2px 10px rgba(0,0,0,0.1);">
-                <h3 style="margin-bottom: 1rem; color: #2c3e50;">Recent Reports</h3>
-                <div id="recent-reports">
-                    <div style="padding: 0.75rem; border-left: 3px solid #e74c3c; margin-bottom: 0.5rem; background: #fdf2f2;">
-                        <div style="font-weight: 600; color: #e74c3c;">High Waves</div>
-                        <div style="font-size: 0.9rem; color: #666;">Mumbai Coast - 2 hours ago</div>
-                    </div>
-                    <div style="padding: 0.75rem; border-left: 3px solid #f39c12; margin-bottom: 0.5rem; background: #fef9e7;">
-                        <div style="font-weight: 600; color: #f39c12;">Storm Surge</div>
-                        <div style="font-size: 0.9rem; color: #666;">Chennai Coast - 4 hours ago</div>
-                    </div>
-                    <div style="padding: 0.75rem; border-left: 3px solid #27ae60; margin-bottom: 0.5rem; background: #eafaf1;">
-                        <div style="font-weight: 600; color: #27ae60;">Abnormal Tides</div>
-                        <div style="font-size: 0.9rem; color: #666;">Goa Coast - 6 hours ago</div>
-                    </div>
-                </div>
-            </div>
 
             <!-- Social Media Feed Placeholder -->
             <div style="background: white; padding: 1.5rem; border-radius: 10px; box-shadow: 0 2px 10px rgba(0,0,0,0.1); margin-top: 1rem;">
@@ -137,7 +75,7 @@
         <div class="main-content">
             <div class="map-container">
                 <!-- Map Controls -->
-                <div style="position: absolute; top: 20px; right: 20px; z-index: 1000; background: white; padding: 1rem; border-radius: 8px; box-shadow: 0 2px 10px rgba(0,0,0,0.1);">
+                <div style="position: absolute; top: 20px; right: 20px; z-index: 1000; background: rgba(255,255,255,0.9); backdrop-filter: blur(10px); padding: 1rem; border-radius: 8px; box-shadow: 0 2px 10px rgba(0,0,0,0.1); max-width: 250px;">
                     <h4 style="margin-bottom: 0.5rem; color: #2c3e50;">Map Legend</h4>
                     <div style="display: flex; align-items: center; margin-bottom: 0.25rem;">
                         <div style="width: 12px; height: 12px; background: #e74c3c; border-radius: 50%; margin-right: 0.5rem;"></div>
@@ -147,17 +85,54 @@
                         <div style="width: 12px; height: 12px; background: #f39c12; border-radius: 50%; margin-right: 0.5rem;"></div>
                         <span style="font-size: 0.9rem;">Medium Severity</span>
                     </div>
-                    <div style="display: flex; align-items: center;">
+                    <div style="display: flex; align-items: center; margin-bottom: 1rem;">
                         <div style="width: 12px; height: 12px; background: #27ae60; border-radius: 50%; margin-right: 0.5rem;"></div>
                         <span style="font-size: 0.9rem;">Low Severity</span>
                     </div>
+                    
+                    <h4 style="margin-bottom: 0.5rem; color: #2c3e50; border-top: 1px solid #ddd; padding-top: 0.5rem;">Recent Reports</h4>
+                    <div style="padding: 0.5rem; border-left: 3px solid #e74c3c; margin-bottom: 0.5rem; background: rgba(231,76,60,0.1);">
+                        <div style="font-weight: 600; color: #e74c3c; font-size: 0.8rem;">High Waves</div>
+                        <div style="font-size: 0.7rem; color: #666;">Mumbai - 2h ago</div>
+                    </div>
+                    <div style="padding: 0.5rem; border-left: 3px solid #f39c12; margin-bottom: 0.5rem; background: rgba(243,156,18,0.1);">
+                        <div style="font-weight: 600; color: #f39c12; font-size: 0.8rem;">Storm Surge</div>
+                        <div style="font-size: 0.7rem; color: #666;">Chennai - 4h ago</div>
+                    </div>
+                    <div style="padding: 0.5rem; border-left: 3px solid #27ae60; background: rgba(39,174,96,0.1);">
+                        <div style="font-weight: 600; color: #27ae60; font-size: 0.8rem;">Abnormal Tides</div>
+                        <div style="font-size: 0.7rem; color: #666;">Goa - 6h ago</div>
+                    </div>
                 </div>
 
-                <!-- Heatmap Toggle -->
-                <div style="position: absolute; top: 20px; left: 20px; z-index: 1000;">
+                <!-- Controls -->
+                <div style="position: absolute; top: 20px; left: 20px; z-index: 1000; display: flex; gap: 1rem; align-items: center;">
                     <button class="btn btn-secondary" onclick="toggleHeatmap()" style="padding: 0.5rem 1rem;">
                         Toggle Heatmap
                     </button>
+                    
+                    <select id="hazard-type" style="padding: 0.5rem; border-radius: 5px; border: 1px solid #ddd;">
+                        <option value="">All Types</option>
+                        <option value="tsunami">Tsunami</option>
+                        <option value="storm-surge">Storm Surge</option>
+                        <option value="high-waves">High Waves</option>
+                        <option value="coastal-flooding">Coastal Flooding</option>
+                        <option value="abnormal-tides">Abnormal Tides</option>
+                    </select>
+                    
+                    <select id="severity-filter" style="padding: 0.5rem; border-radius: 5px; border: 1px solid #ddd;">
+                        <option value="">All Levels</option>
+                        <option value="high">High</option>
+                        <option value="medium">Medium</option>
+                        <option value="low">Low</option>
+                    </select>
+                    
+                    <select id="time-range" style="padding: 0.5rem; border-radius: 5px; border: 1px solid #ddd;">
+                        <option value="24h">Last 24 Hours</option>
+                        <option value="7d">Last 7 Days</option>
+                        <option value="30d">Last 30 Days</option>
+                        <option value="all">All Time</option>
+                    </select>
                 </div>
 
                 <!-- Map Container -->

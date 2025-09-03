@@ -23,6 +23,11 @@ class OceanHazardPlatform {
                 attribution: '© OpenStreetMap contributors'
             }).addTo(this.map);
 
+            // Force map to resize properly
+            setTimeout(() => {
+                this.map.invalidateSize();
+            }, 200);
+
             // Add heatmap layer
             this.heatmapLayer = L.layerGroup().addTo(this.map);
         }
