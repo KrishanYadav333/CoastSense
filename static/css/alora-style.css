@@ -1311,8 +1311,9 @@ body {
   background-position: center center;
   background-repeat: no-repeat;
   background-size: cover;
+  background-attachment: fixed;
   padding: 80px 5%;
-  min-height: 80vh;
+  min-height: 100vh;
   position: relative;
   z-index: 1;
 }
@@ -1336,31 +1337,43 @@ body {
 .section.is--process .process-grid {
   display: grid;
   grid-template-columns: repeat(4, 1fr);
-  gap: 2rem;
-  max-width: 1200px;
-  margin: 3rem auto 0;
+  gap: 1rem;
+  max-width: 900px;
+  margin: 1rem auto 0;
 }
 
 .section.is--process .process-item {
   text-align: center;
-  padding: 1.5rem;
-  background: rgba(255,255,255,0.1);
-  border-radius: 10px;
-  backdrop-filter: blur(10px);
+  padding: 0.3rem 0.8rem 0.5rem;
+  background: rgba(255,255,255,0.15);
+  border-radius: 6px;
+  backdrop-filter: blur(5px);
+  border: 1px solid rgba(255,255,255,0.2);
 }
 
 .section.is--process .process-number {
-  width: 50px;
-  height: 50px;
+  width: 30px;
+  height: 30px;
   background: linear-gradient(45deg, #1dcdfe, #34f5c5);
   color: white;
   border-radius: 50%;
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 1.2rem;
+  font-size: 0.9rem;
   font-weight: bold;
-  margin: 0 auto 1rem;
+  margin: 0 auto 0.2rem;
+}
+
+.section.is--process .process-item h3 {
+  font-size: 0.9rem;
+  margin: 0.1rem 0;
+}
+
+.section.is--process .process-item p {
+  font-size: 0.8rem;
+  margin: 0;
+  opacity: 0.9;
 }
 
 .container.is--process_path {
